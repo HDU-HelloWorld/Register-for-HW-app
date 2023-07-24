@@ -1,10 +1,7 @@
 <script setup lang="ts">
 import { onLaunch, onShow, onHide } from "@dcloudio/uni-app";
-import { getCode, loginInit } from '@/static/api/login'
 onLaunch(async () => {
-  const login_res: any = await getCode()
-  console.log(login_res)
-  const login_init = await loginInit(login_res)
+  console.log("App Launch");
 });
 onShow(() => {
   console.log("App Show");
