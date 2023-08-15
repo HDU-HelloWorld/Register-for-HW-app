@@ -6,79 +6,12 @@
 				"navigationBarTitleText": "首页",
 				"navigationStyle":"custom"
 			}
-		},
-		{
-			"path": "pages/collect/index",
-			"style": {
-				"navigationBarTitleText": "收藏",
-				"navigationStyle":"custom"
-			}
-		},
-		{
-			"path": "pages/rank/index",
-			"style": {
-				"navigationBarTitleText": "排行榜",
-				"navigationStyle":"custom"
-			}
-		},
-		{
-			"path": "pages/user/index",
-			"style": {
-				"navigationBarTitleText": "个人中心",
-				"navigationStyle":"custom"
-			}
-		},
-		{
-			"path": "pages/test/index",
-			"style": {
-				"navigationBarTitleText": "测试",
-				"navigationStyle":"custom"
-			}
-		},
-		{
-			"path": "pages/bushquetions/index",
-			"style": {
-				"navigationBarTitleText": "题库",
-				"navigationStyle":"custom"
-			}
 		}
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "uni-app",
+		"navigationBarTitleText": "HelloWorld",
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8"
-	},
-	"tabBar":{
-		"color":"#999999",
-		"selectedColor":"#333333",
-		"backgroundColor":"#ffffff",
-		"borderStyle":"black",
-		"list":[
-			{
-				"pagePath":"pages/index/index",
-				"text":"首页",
-				"iconPath":"static/tabber/home.png",
-				"selectedIconPath":"static/tabber/home-select.png"
-			},
-			{
-				"pagePath":"pages/collect/index",
-				"text":"收藏",
-				"iconPath":"static/tabber/collect.png",
-				"selectedIconPath":"static/tabber/collect-select.png"
-			},
-			{
-				"pagePath":"pages/rank/index",
-				"text":"排行榜",
-				"iconPath":"static/tabber/rank.png",
-				"selectedIconPath":"static/tabber/rank-select.png"
-			},
-			{
-				"pagePath":"pages/user/index",
-				"text":"个人中心",
-				"iconPath":"static/tabber/user.png",
-				"selectedIconPath":"static/tabber/user-select.png"
-			}
-		]
 	}
 }

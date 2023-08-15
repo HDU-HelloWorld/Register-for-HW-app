@@ -1,111 +1,216 @@
 <template>
 	<view class="block" :style="{ height: capsuleTop + 'px' }"></view>
-	<view class="icon-title" :style="{ height: capsuleHeight + 'px', lineHeight: capsuleHeight + 'px' }">ibee积分小站
+	<view class="icon-title" :style="{ height: capsuleHeight + 'px', lineHeight: capsuleHeight + 'px' }">HelloWorld报名
 	</view>
-	<view class="user-info">
-		<view class="user-info-left">
-			<img :src="avter" alt="可爱捏" class="user-avter" />
-			<view class="user-info-detail">
-				<view class="user-info-detail-top">
-					<view class="user-name">
-						{{ userData.userName }}
-					</view>
-					<view class="user-leve">
-						{{ userData.userLeve }}
-					</view>
+	<!-- 写出一个表单里面包括stu_name stu_gender stu_number stu_phone_number stu_qq_number stu_email stu_major stu_hope_department stu_self_introduction stu_honor -->
+	<view class="forms-wrapper">
+		<form @submit="submit" @reset="formReset">
+			<view class="uni-form-item">
+				<view class="title">姓名</view>
+				<input class="uni-input" confirm-type="next" v-model="userInfo.stu_name" name="stu_name" placeholder="请输入姓名" />
+			</view>
+			<view class="uni-form-item">
+				<view class="title">性别</view>
+				<radio-group name="stu_gender">
+					<label style="margin-right: 25px;">
+						<radio value="men" />
+						<text>男</text>
+					</label>
+					<label>
+						<radio value="women" /><text>女</text>
+					</label>
+				</radio-group>
+			</view>
+			<view class="uni-form-item">
+				<view class="title">学号</view>
+				<input class="uni-input" v-model="userInfo.stu_number" name="stu_number" type="number" placeholder="请输入学号" />
+			</view>
+			<view class="uni-form-item ">
+				<view class="title">电话号码</view>
+				<input class="uni-input" v-model="userInfo.stu_phone_number" name="stu_phone_number" type="tel"
+					placeholder="请输入电话号码" />
+			</view>
+			<view class="uni-form-item ">
+				<view class="title">QQ号码</view>
+				<input class="uni-input" v-model="userInfo.stu_qq_number" name="stu_qq_number" type="number"
+					placeholder="请输入QQ号码" />
+			</view>
+			<view class="uni-form-item ">
+				<view class="title">邮箱</view>
+				<input class="uni-input" v-model="userInfo.stu_email" name="stu_email" type="email" placeholder="请输入邮箱" />
+			</view>
+			<view class="uni-form-item ">
+				<view class="title">专业</view>
+				<input class="uni-input" v-model="userInfo.stu_major" name="stu_major" type="text" placeholder="请输入专业" />
+			</view>
+			<view class="uni-form-item ">
+				<view class="uni-list-cell-left">
+					志愿部门
 				</view>
-				<view class="user-status">
-					连续登录<span class="user-status-data">{{ userData.userLoginDay }}</span>天 累计刷题 <span class="user-status-data">{{
-						userData.userBushQuetions }}</span>道
-				</view>
-			</view>
-		</view>
-		<view class="user-info-right">
-			<view class="user-info-setting">
-				<img :src="settingImg" alt="" class="setting-img">
-			</view>
-			<view class="user-info-money">
-				<img :src="moneyImg" alt="" class="money-img">
-				<view>{{ userData.userMoney }} 挨币</view>
-			</view>
-		</view>
-	</view>
-	<view class="banner-swiper">
-		<swiper class="swiper" :indicator-color="ponitcolor" :indicator-active-color="currentcolor" circular="true"
-			:indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration">
-			<swiper-item v-for="item in listimg">
-				<view class="swiper-item"><img :src="item" alt="" class="swiper-img"></view>
-			</swiper-item>
-		</swiper>
-	</view>
-	<view class="tools-content">
-		<view class="random-question" @click="goToQuestion">
-			<view class="title">随缘刷题</view>
-			<view class="detail">随机题型，随机难度<view>成为六边形大佬的必修课</view>
-			</view>
-		</view>
-		<view class="class-question">
-			<view class="title">分类刷题</view>
-			<view class="detail">专项突破，补齐短板
-				<view>
-					下一个满绩的积佬就是你
-				</view>
-			</view>
-		</view>
-		<view class="featured-question">
-			<view class="title">精选题库</view>
-			<view class="detail">
-				期中期末，竞赛考研
-				<view>
-					各类优质积分题目任君挑选
+				<view class="uni-list-cell-db">
+					<picker name="stu_hope_department" @change="bindPickerChange" :value="index" :range="departmentArr">
+						<view class="uni-select">{{ departmentArr[index] }}
+							<image :src="arrowDown" style="width: 20px; height: 20px;"></image>
+						</view>
+					</picker>
 				</view>
 			</view>
-		</view>
-		<view class="about-us">
-			<view class="about">关于我们</view>
-			<view class="thanks">特别鸣谢</view>
-		</view>
+			<view class="uni-form-item ">
+				<view class="title">自我介绍</view>
+				<textarea v-model="userInfo.stu_self_introduction" name="stu_self_introduction" class="text-area"
+					@blur="bindTextAreaBlur" auto-height placeholder="请输入自我介绍" />
+			</view>
+			<view class="uni-form-item ">
+				<view class="title">荣誉</view>
+				<textarea v-model="userInfo.stu_honor" name="stu_honor" class="text-area" @blur="bindTextAreaBlurHonor"
+					auto-height placeholder="请输入荣誉没有则填无" />
+			</view>
+			<view class="uni-btn-v">
+				<button form-type="submit">Submit</button>
+				<button type="reset" form-type="reset">Reset</button>
+			</view>
+		</form>
 	</view>
 </template>
 
+
 <script setup lang="ts">
-import { onMounted, ref } from "vue"
-import avter from "@/static/user/avter.png"
-import settingImg from '@/static/user/setting.png'
-import moneyImg from '@/static/user/money.png'
-import swiperImg1 from '@/static/swiper/1.png'
+import { ref } from "vue"
+import arrowDown from '../../static/arrowDown.png'
+import test from '../../static/text.png'
+import { register } from "../../api/register";
 const menuButtonObject = uni.getMenuButtonBoundingClientRect()
 const capsuleTop = ref(menuButtonObject.top || 30)
 const capsuleHeight = ref(menuButtonObject.height || 30)
-const userData = ref({
-	userImg: avter,
-	userName: "toki",
-	userLeve: "积不如人",
-	userLoginDay: "28",
-	userBushQuetions: "13",
-	userMoney: "100"
+const userInfo: any = ref({
+	stu_name: '',
+	stu_gender: '',
+	stu_number: '',
+	stu_phone_number: '',
+	stu_qq_number: '',
+	stu_email: '',
+	stu_major: '',
+	stu_hope_department: '',
+	stu_self_introduction: '',
+	stu_honor: ''
 })
-const indicatorDots = true,//是否显示面板指示点 就是下面那个小圆点
-	autoplay = true,//是否自动播放
-	ponitcolor = "#777676",//指示点的颜色
-	currentcolor = "#D8D8D8",//当前指示点颜色
-	interval = 2000,
-	duration = 500
+const index = ref(0)
+const rules = {
 
-
-const listimg = [
-	swiperImg1,
-	swiperImg1,
-	swiperImg1,
-	swiperImg1
-]
-
-const goToQuestion = () => {
-	uni.navigateTo({
-		url: '/pages/bushquetions/index'
-	})
+}
+const departmentArr = ref(['web', '后端', '人工智能', '行政'])
+const change = (e: any) => {
+	console.log(e)
 }
 
+const submit = async (e: any) => {
+	var formdata = e.detail.value
+	// 遍历formdata赋值给userInfo
+	for (let key in formdata) {
+		userInfo.value[key] = formdata[key]
+	}
+	userInfo.value.stu_hope_department = departmentArr.value[userInfo.value.stu_hope_department]
+	if (userInfo.value.stu_gender == 'men') {
+		userInfo.value.stu_gender == '男'
+	} else if (userInfo.value.stu_gender == 'women') {
+		userInfo.value.stu_gender == '女'
+	}
+	console.log(userInfo.value)
+	// 表单验证
+	if (userInfo.value.stu_name == '') {
+		showInfomation('none', '姓名不能为空')
+		return
+	}
+	// 学号验证 要求必须是8位数字
+	if (userInfo.value.stu_number == '') {
+		showInfomation('none', '学号不能为空')
+		return
+	}
+	if (userInfo.value.stu_number.length != 8) {
+		showInfomation('none', '学号必须是8位数字')
+		return
+	}
+	// 电话号码验证 要求必须是11位数字
+	if (userInfo.value.stu_phone_number == '') {
+		showInfomation('none', '电话号码不能为空')
+		return
+	}
+	if (userInfo.value.stu_phone_number.length != 11) {
+		showInfomation('none', '电话号码无效')
+		return
+	}
+	// QQ号码验证 要求必须是6-11位数字
+	if (userInfo.value.stu_qq_number == '') {
+		showInfomation('none', 'QQ号码不能为空')
+		return
+	}
+	if (userInfo.value.stu_qq_number.length < 6 || userInfo.value.stu_qq_number.length > 11) {
+		showInfomation('none', 'QQ号码无效')
+		return
+	}
+	// 邮箱验证
+	if (userInfo.value.stu_email == '') {
+		showInfomation('none', '邮箱不能为空')
+		return
+	}
+	// 专业验证
+	if (userInfo.value.stu_major == '') {
+		showInfomation('none', '专业不能为空')
+		return
+	}
+	// 自我介绍验证
+	if (userInfo.value.stu_self_introduction == '') {
+		showInfomation('none', '写点自我介绍趴')
+		return
+	}
+	// 荣誉验证
+	if (userInfo.value.stu_honor == '') {
+		showInfomation('none', '写点荣誉吧(没有则填无)')
+		return
+	}
+	// 提交表单
+	try {
+		const res = await register(userInfo.value)
+		console.log('sucess:', res)
+	} catch (error) {
+		console.log('fail:', error)
+	}
+}
+const formReset = (e: any) => {
+	console.log(e)
+	// 重置表单 重置userInfo
+	for (let key in userInfo.value) {
+		userInfo.value[key] = ''
+	}
+}
+const bindPickerChange = (e: any) => {
+	index.value = e.detail.value
+}
+const bindTextAreaBlur = (e: any) => {
+	console.log(e.detail.value)
+}
+const bindTextAreaBlurHonor = (e: any) => {
+	console.log(e.detail.value)
+}
+
+const showInfomation = (type: any, title: string) => {
+	uni.showToast({
+		title: title,
+		icon: type,
+		duration: 2000,
+		mask: true,
+		position: 'top',
+		success: () => {
+			console.log('success')
+		},
+		fail: () => {
+			console.log('fail')
+		},
+		complete: () => {
+			console.log('complete')
+		}
+	})
+}
 </script>
 
 <style scoped lang="less">
@@ -115,271 +220,101 @@ const goToQuestion = () => {
 	margin-left: 16px;
 }
 
-.user-info {
-	height: 65px;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
+.forms-wrapper {
 	margin-top: 20px;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 
-	.user-info-left {
+	// 表单样式
+	.uni-form-item {
 		display: flex;
-		height: 65px;
-		width: 250px;
-		justify-content: flex-start;
-		align-items: center;
-		margin-left: 16px;
-		display: flex;
-		justify-content: flex-start;
-		align-items: center;
+		align-items: flex-start;
+		width: 90%;
+		flex-direction: column;
+		margin-top: 10px;
 
-		.user-avter {
-			width: 64px;
-			height: 64px;
-			border-radius: 50%;
+		.title {
+			font-size: 16px;
+			font-weight: 600;
+			margin-bottom: 10px;
 		}
 
-		.user-info-detail {
-			margin-left: 12px;
-			display: flex;
-			flex-direction: column;
-			justify-content: space-around;
-			align-items: flex-start;
+		.uni-input {
+			width: 100%;
+			height: 40px;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			padding: 0 10px;
+			font-size: 14px;
 
-			.user-info-detail-top {
-				display: flex;
-				align-items: center;
-				height: 22px;
-
-				.user-name {
-					font-size: 16px;
-					font-weight: 600;
-					line-height: 22px;
-					letter-spacing: -0.2800000011920929px;
-					text-align: center;
-				}
-
-				.user-leve {
-					width: 50px;
-					height: 16px;
-					font-size: 10px;
-					text-align: center;
-					background-color: #DCBD71;
-					margin-left: 10px;
-					border-radius: 4px;
-				}
-			}
-
-			.user-status {
-				margin-top: 5px;
-				width: 173px;
-				height: 14px;
-				font-size: 12px;
-				font-weight: 400;
-				line-height: 17px;
-				letter-spacing: 1px;
-				text-align: left;
-				color: #777676;
-
-				.user-status-data {
-					color: #000;
-				}
+			&::-webkit-input-placeholder {
+				color: #ccc;
 			}
 		}
 	}
 
-	.user-info-right {
-		width: 100px;
-		// background-color: red;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		height: 65px;
-		justify-content: space-around;
+	.uni-list-cell-left {
+		// width: 100px;
+		font-size: 16px;
+		font-weight: 600;
+		margin-bottom: 10px;
+		// width: 100%;
+	}
 
-		.user-info-setting {
-			.setting-img {
-				width: 25px;
-				height: 25px;
-			}
-		}
+	.uni-list-cell-db {
+		width: 100%;
+		font-size: 20px;
 
-		.user-info-money {
-			// width: 100px;
+		.uni-select {
+			width: 100%;
 			height: 40px;
-			// background-color: #ccc;
+			// border: 1px solid #ccc;
+			border-radius: 5px;
+			padding: 0 5px;
+			font-size: 18px;
 			display: flex;
 			align-items: center;
-			justify-content: center;
-			font-size: 12px;
+			border-top: 1px solid #ccc;
+			border-bottom: 1px solid #ccc;
+			justify-content: space-between;
 
-			.money-img {
-				width: 25px;
-				height: 25px;
-				margin-left: 5px;
-			}
-		}
-	}
-}
-
-.banner-swiper {
-	width: 393px;
-	height: 152px;
-	// background-color: red;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-
-	.swiper {
-		width: 393px;
-		height: 152px;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-
-		.swiper-item {
-			width: 393px;
-			height: 152px;
-			position: relative;
-
-			.swiper-img {
-				left: 9px;
-				top: 3px;
-				position: absolute;
-				width: 357px;
-				height: 152px;
+			&::-webkit-input-placeholder {
+				color: #ccc;
 			}
 		}
 	}
 
-}
-
-.tools-content {
-	margin-left: 10px;
-	display: flex;
-	width: 100%;
-	flex-wrap: wrap;
-	justify-content: flex-start;
-
-	.random-question {
-		height: 150px;
-		width: 174px;
-		border-radius: 10px;
-		box-shadow: 0px 4px 4px 0px #00000040;
-		background: rgba(217, 141, 141, 1);
-		overflow: hidden;
+	.text-area {
+		// width: 100%;
+		height: 200px;
+		border: 1px solid #ccc;
+		border-radius: 5px;
 		padding: 10px;
-		box-sizing: border-box;
+		font-size: 14px;
+		margin-bottom: 10px;
 
-		.title {
-			font-size: 18px;
-			font-weight: 400;
-			line-height: 25px;
-			letter-spacing: 0em;
-			text-align: left;
-			margin-left: 5px;
-		}
-
-		.detail {
-			font-size: 12px;
-			margin-left: 5px;
-			line-height: 15px;
+		&::-webkit-input-placeholder {
+			color: #ccc;
 		}
 	}
 
-	.class-question {
-		height: 150px;
-		width: 174px;
-		border-radius: 10px;
-		box-shadow: 0px 4px 4px 0px #00000040;
-		background: rgba(113, 207, 220, 0.8);
-
-		overflow: hidden;
-		margin-left: 7px;
-		padding: 10px;
-		box-sizing: border-box;
-
-		.title {
-			font-size: 18px;
-			font-weight: 400;
-			line-height: 25px;
-			letter-spacing: 0em;
-			text-align: left;
-			margin-left: 5px;
-		}
-
-		.detail {
-			font-size: 12px;
-			margin-left: 5px;
-			line-height: 15px;
-		}
-	}
-
-	.featured-question {
-		height: 150px;
-		width: 174px;
-		border-radius: 10px;
-		box-shadow: 0px 4px 4px 0px #00000040;
-		background: rgba(220, 216, 113, 0.8);
-		margin-top: 20px;
-		overflow: hidden;
-		// margin-left: 5px;
-		padding: 10px;
-		box-sizing: border-box;
-
-		.title {
-			font-size: 18px;
-			font-weight: 400;
-			line-height: 25px;
-			letter-spacing: 0em;
-			text-align: left;
-			margin-left: 5px;
-		}
-
-		.detail {
-			font-size: 12px;
-			margin-left: 5px;
-			line-height: 15px;
-		}
-	}
-
-	.about-us {
-		height: 150px;
-		width: 174px;
-		border-radius: 10px;
-		box-shadow: 0px 4px 4px 0px #00000040;
-		margin-top: 20px;
-		overflow: hidden;
-		margin-left: 8px;
+	.uni-btn-v {
+		width: 100%;
 		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-		align-items: center;
+		justify-content: space-around;
+		margin-top: 20px;
 
-		.about {
-			width: 174px;
-			height: 70.16831970214844px;
-			border-radius: 10px;
-			box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-			background: rgba(113, 220, 123, 0.8);
-			font-size: 18px;
-			font-weight: 400;
-			padding: 10px 8px;
-			box-sizing: border-box;
+		button {
+			width: 40%;
+			height: 40px;
+			border-radius: 5px;
+			border: 1px solid #ccc;
+			background-color: #fff;
+			font-size: 16px;
+			font-weight: 600;
 		}
-
-		.thanks {
-			width: 174px;
-			height: 70.16831970214844px;
-			border-radius: 10px;
-			box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-			background: rgba(115, 113, 220, 0.8);
-			font-size: 18px;
-			font-weight: 400;
-			padding: 10px 8px;
-			box-sizing: border-box;
-		}
-
 	}
 }
 </style>
