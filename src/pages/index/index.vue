@@ -111,11 +111,10 @@ const submit = async (e: any) => {
 	}
 	userInfo.value.stu_hope_department = departmentArr.value[userInfo.value.stu_hope_department]
 	if (userInfo.value.stu_gender == 'men') {
-		userInfo.value.stu_gender == '男'
+		userInfo.value.stu_gender = '男'
 	} else if (userInfo.value.stu_gender == 'women') {
-		userInfo.value.stu_gender == '女'
+		userInfo.value.stu_gender = '女'
 	}
-	console.log(userInfo.value)
 	// 表单验证
 	if (userInfo.value.stu_name == '') {
 		showInfomation('none', '姓名不能为空')
@@ -170,7 +169,10 @@ const submit = async (e: any) => {
 	}
 	// 提交表单
 	try {
-		const res = await register(userInfo.value)
+		console.log('userInfo:', userInfo.value)
+		const res = await register({
+			...userInfo.value
+		})
 		console.log('sucess:', res)
 	} catch (error) {
 		console.log('fail:', error)
