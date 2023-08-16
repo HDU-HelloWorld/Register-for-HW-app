@@ -170,10 +170,19 @@ const submit = async (e: any) => {
 	// 提交表单
 	try {
 		console.log('userInfo:', userInfo.value)
-		const res = await register({
+		const res: any = await register({
 			...userInfo.value
 		})
-		console.log('sucess:', res)
+		// 如果res.data 下面存在stu_number 则说明报名成功
+		if (res.data && res.data.stu_number) {
+			showInfomation('success', '报名成功')
+			// 重置表单 重置userInfo
+			for (let key in userInfo.value) {
+				userInfo.value[key] = ''
+			}
+		} else {
+			showInfomation('none', '报名失败请检查学号是否已经报名或者联系管理员')
+		}
 	} catch (error) {
 		console.log('fail:', error)
 	}
