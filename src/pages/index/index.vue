@@ -1,7 +1,4 @@
 <template>
-	<view class="block" :style="{ height: capsuleTop + 'px' }"></view>
-	<view class="icon-title" :style="{ height: capsuleHeight + 'px', lineHeight: capsuleHeight + 'px' }">HelloWorld报名
-	</view>
 	<!-- 写出一个表单里面包括stu_name stu_gender stu_number stu_phone_number stu_qq_number stu_email stu_major stu_hope_department stu_self_introduction stu_honor -->
 	<view class="forms-wrapper">
 		<form @submit="submit" @reset="formReset">
@@ -77,11 +74,7 @@
 <script setup lang="ts">
 import { ref } from "vue"
 import arrowDown from '../../static/arrowDown.png'
-import test from '../../static/text.png'
 import { register } from "../../api/register";
-const menuButtonObject = uni.getMenuButtonBoundingClientRect()
-const capsuleTop = ref(menuButtonObject.top || 30)
-const capsuleHeight = ref(menuButtonObject.height || 30)
 const userInfo: any = ref({
 	stu_name: '',
 	stu_gender: '',
@@ -225,12 +218,6 @@ const showInfomation = (type: any, title: string) => {
 </script>
 
 <style scoped lang="less">
-.icon-title {
-	font-size: 18px;
-	font-weight: 600;
-	margin-left: 16px;
-}
-
 .forms-wrapper {
 	margin-top: 20px;
 	width: 100%;
