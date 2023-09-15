@@ -1,8 +1,9 @@
 import api from './index'
 
-export const register = (paramList:any)=> {
+export const register = async (paramList:any)=> {
   try {
-    const res = api.post('/register', paramList)
+    const res = await api.post('/register', paramList)
+    console.log(res)
     return res
   } catch (error) {
     console.log(error)

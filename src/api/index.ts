@@ -1,6 +1,6 @@
 import ajax from 'uni-ajax'
 const api = ajax.create({
-  baseURL: 'http://HelloWorld-hdu.com:6777',
+  baseURL: 'http://127.0.0.1:7001',
   timeout: 50000,
 })
 

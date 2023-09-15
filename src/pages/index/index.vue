@@ -166,8 +166,8 @@ const submit = async (e: any) => {
 		const res: any = await register({
 			...userInfo.value
 		})
-		// 如果res.data 下面存在stu_number 则说明报名成功
-		if (res.data && res.data.stu_number) {
+		// 如果res.data == 200 提示报名成功
+		if (res.data.code == 200) {
 			showInfomation('success', '报名成功')
 			// 重置表单 重置userInfo
 			for (let key in userInfo.value) {
